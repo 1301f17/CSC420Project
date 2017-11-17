@@ -1,12 +1,20 @@
 import utils
 import detection_cnn
 import detection_svm
+import detection_svm_color
 import time
 
-# xs1, ys1, fs1, xs2, ys2, fs2 = utils.load_data()
-# detection_svm.train(xs1, ys1, fs1, xs2, ys2, fs2)
+# utils.save_data()
 
-t = time.time()
+xs1, ys1, fs1, xs2, ys2, fs2 = utils.load_data()
+
+detection_cnn.train(xs1, ys1, fs1, xs2, ys2, fs2)
+detection_cnn.cross_validation()
+
+detection_svm.train(xs1, ys1, fs1, xs2, ys2, fs2)
 detection_svm.cross_validation()
-print("total runtime:")
-print(time.time() - t)
+
+
+xs1, ys1, fs1, xs2, ys2, fs2 = utils.load_data_color()
+detection_svm_color.train(xs1, ys1, fs1, xs2, ys2, fs2)
+detection_svm_color.cross_validation()

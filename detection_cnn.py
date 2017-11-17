@@ -122,7 +122,7 @@ def cross_validation():
 	TP = 0
 	TP_FN = 0
 	TP_FP = 0
-	threshold = 0.98
+	threshold = 0.85
 
 	# load the model1 and test on dataset2
 	sess = tf.Session()
@@ -153,12 +153,24 @@ def cross_validation():
 			patches = np.array(patches)
 			result[y][int((H-1)/2): int(500 - (H-1)/2 - 1)] = sess.run(output,feed_dict={X: patches, keep_prob:0.8}).reshape(1, -1)
 
+
+		# xs = []
+		# ys = []
 		# filter the result so that only those local max and greater than some threshold will be positive.
 		result_filtered = np.zeros([500,500])
 		for y in range(6, result.shape[0]-7):
 			for x in range(6, result.shape[1]-7):
 				if result[y,x] == np.amax(result[y-6:y+7,x-6:x+7]) and result[y,x] > threshold:
 					result_filtered[y,x] = 1
+					# xs.append(x)
+					# ys.append(y)
+		# img = plt.imread(image_path)
+		# fig, ax = plt.subplots()
+		# ax.imshow(img)
+		# ax.scatter(xs,ys, s=50, facecolors='none')
+		# plt.show()
+		# return
+
 
 		# calculate TP FP FN for precision-recall
 		for label in labels:
